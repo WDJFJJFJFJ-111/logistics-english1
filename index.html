@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogistiSpeak · 物流英语训练营</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f9a8d4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="LogistiSpeak">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink:#f9a8d4; --pink2:#fbcfe8; --mint:#6ee7b7; --mint2:#a7f3d0;
+  --peach:#fcd34d; --lavender:#c4b5fd; --lav2:#ddd6fe; --sky:#93c5fd;
+  --coral:#fca5a5; --white:#fffdf9; --cream:#fef9f0; --card:#ffffff;
+  --text:#3d2c3e; --text2:#7c6d7e; --border:rgba(249,168,212,0.3);
+  --shadow:0 4px 24px rgba(196,181,253,0.18); --shadow2:0 8px 32px rgba(249,168,212,0.22);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);color:var(--text);font-family:'Nunito','Noto Sans SC',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(circle at 10% 15%,rgba(249,168,212,0.18) 0%,transparent 40%),
+  radial-gradient(circle at 90% 10%,rgba(196,181,253,0.15) 0%,transparent 35%),
+  radial-gradient(circle at 80% 80%,rgba(110,231,183,0.13) 0%,transparent 35%),
+  radial-gradient(circle at 20% 85%,rgba(252,211,77,0.12) 0%,transparent 30%);
+  pointer-events:none;z-index:0;}
+.deco{position:fixed;border-radius:50%;opacity:0.1;pointer-events:none;z-index:0;}
+.deco1{width:220px;height:220px;background:var(--pink);top:3%;left:-6%;animation:floatDeco 18s ease-in-out infinite;}
+.deco2{width:140px;height:140px;background:var(--lavender);top:12%;right:-4%;animation:floatDeco 14s ease-in-out infinite reverse;}
+.deco3{width:100px;height:100px;background:var(--mint);top:58%;left:-3%;animation:floatDeco 20s ease-in-out infinite;}
+.deco4{width:170px;height:170px;background:var(--peach);bottom:3%;right:-5%;animation:floatDeco 16s ease-in-out infinite reverse;}
+@keyframes floatDeco{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-18px) scale(1.04);}}
+header{position:sticky;top:0;z-index:100;background:rgba(255,253,249,0.9);backdrop-filter:blur(20px);border-bottom:2px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 16px rgba(249,168,212,0.12);}
+.logo{font-size:1.2rem;font-weight:900;background:linear-gradient(135deg,#f472b6,#a78bfa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.xp-badge{background:linear-gradient(135deg,var(--pink),var(--lavender));color:white;font-size:0.78rem;font-weight:800;padding:5px 12px;border-radius:99px;box-shadow:0 2px 10px rgba(249,168,212,0.4);display:flex;align-items:center;gap:4px;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #34d399;animation:sPulse 2s infinite;}
+@keyframes sPulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.prog-wrap{flex:1;max-width:130px;margin:0 10px;height:6px;border-radius:99px;background:rgba(249,168,212,0.2);overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#f472b6,#a78bfa,#34d399);transition:width 0.5s ease;}
+nav{display:flex;gap:2px;padding:10px 12px 0;overflow-x:auto;scrollbar-width:none;position:relative;z-index:1;background:rgba(255,253,249,0.7);}
+nav::-webkit-scrollbar{display:none;}
+.tab-btn{flex-shrink:0;background:transparent;border:none;color:var(--text2);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;padding:8px 14px;border-radius:12px 12px 0 0;cursor:pointer;transition:all 0.2s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.tab-btn:hover{color:var(--text);background:rgba(249,168,212,0.1);}
+.tab-btn.active{color:#d946ef;background:white;box-shadow:0 -4px 12px rgba(249,168,212,0.2);border-bottom:3px solid #f472b6;}
+main{padding:16px;max-width:680px;margin:0 auto;position:relative;z-index:1;}
+.panel{display:none;animation:fadeUp 0.3s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.sec-title{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#d946ef;font-weight:800;margin-bottom:10px;margin-top:4px;display:flex;align-items:center;gap:6px;}
+.sec-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(244,114,182,0.3),transparent);}
+.card{background:var(--card);border:1.5px solid rgba(249,168,212,0.25);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
+.card:hover{transform:translateY(-1px);box-shadow:var(--shadow2);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--lavender),var(--mint));opacity:0.5;}
+.card-deco{position:absolute;right:14px;top:14px;font-size:2rem;opacity:0.1;pointer-events:none;}
+.vocab-word{font-size:1.5rem;font-weight:900;color:var(--text);margin-bottom:2px;}
+.vocab-ph{font-size:0.82rem;color:#a78bfa;font-weight:600;margin-bottom:6px;}
+.vocab-cn{font-size:1rem;font-weight:800;color:#f472b6;margin-bottom:8px;}
+.vocab-sent{font-size:0.85rem;color:var(--text2);border-left:3px solid var(--pink);background:rgba(249,168,212,0.06);border-radius:0 8px 8px 0;padding:7px 10px;line-height:1.7;font-style:italic;}
+.vocab-sent b{color:#d946ef;font-style:normal;}
+.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.btn{background:white;border:1.5px solid rgba(249,168,212,0.4);color:var(--text2);font-family:'Nunito',sans-serif;font-size:0.82rem;font-weight:700;padding:8px 16px;border-radius:12px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:5px;box-shadow:0 2px 8px rgba(249,168,212,0.1);}
+.btn:hover{border-color:var(--pink);color:#d946ef;transform:translateY(-1px);box-shadow:0 4px 12px rgba(249,168,212,0.25);}
+.btn.primary{background:linear-gradient(135deg,#f472b6,#a78bfa);border-color:transparent;color:white;box-shadow:0 4px 14px rgba(244,114,182,0.35);}
+.btn.primary:hover{background:linear-gradient(135deg,#ec4899,#9333ea);transform:translateY(-1px);}
+.btn.sm{font-size:0.72rem;padding:4px 10px;}
+.tag{display:inline-block;font-size:0.7rem;font-weight:800;padding:3px 10px;border-radius:99px;margin-right:4px;}
+.tag.ship{background:rgba(147,197,253,0.2);color:#3b82f6;}
+.tag.cust{background:rgba(252,211,77,0.2);color:#d97706;}
+.tag.neg{background:rgba(196,181,253,0.2);color:#7c3aed;}
+.tag.email{background:rgba(110,231,183,0.2);color:#059669;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.stat-card{background:white;border-radius:16px;padding:14px 10px;text-align:center;box-shadow:var(--shadow);border:1.5px solid rgba(249,168,212,0.2);transition:transform 0.2s;}
+.stat-card:hover{transform:translateY(-2px);}
+.stat-num{font-size:1.6rem;font-weight:900;}
+.stat-label{font-size:0.72rem;color:var(--text2);font-weight:600;margin-top:2px;}
+.mission-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed rgba(249,168,212,0.3);}
+.mission-item:last-child{border-bottom:none;}
+.mission-check{width:26px;height:26px;border-radius:50%;border:2px solid rgba(249,168,212,0.5);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;cursor:pointer;transition:all 0.2s;background:white;}
+.mission-check.done{background:linear-gradient(135deg,#f472b6,#a78bfa);border-color:transparent;color:white;box-shadow:0 2px 8px rgba(244,114,182,0.35);}
+.mission-text{flex:1;font-size:0.85rem;font-weight:600;}
+.mission-xp{font-size:0.75rem;font-weight:800;background:linear-gradient(135deg,var(--peach),#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.chat-box{background:rgba(255,253,249,0.8);border:1.5px solid rgba(249,168,212,0.25);border-radius:16px;padding:14px;height:250px;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px;}
+.msg{display:flex;gap:8px;align-items:flex-start;}
+.msg.user{flex-direction:row-reverse;}
+.msg-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.msg-av.ai{background:linear-gradient(135deg,var(--pink2),var(--lav2));}
+.msg-av.user{background:linear-gradient(135deg,var(--mint2),var(--sky));}
+.msg-bubble{background:white;border:1.5px solid rgba(249,168,212,0.2);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:0.85rem;line-height:1.6;max-width:80%;box-shadow:0 2px 10px rgba(249,168,212,0.1);}
+.msg.user .msg-bubble{background:linear-gradient(135deg,rgba(196,181,253,0.15),rgba(249,168,212,0.12));border-radius:16px 16px 4px 16px;}
+.msg-bubble .cn{font-size:0.75rem;color:var(--text2);margin-top:4px;padding-top:4px;border-top:1px dashed rgba(249,168,212,0.3);}
+.speak-input-row{display:flex;gap:8px;}
+.speak-input{flex:1;background:white;border:1.5px solid rgba(249,168,212,0.35);border-radius:12px;color:var(--text);font-family:'Nunito',sans-serif;font-size:0.88rem;padding:10px 14px;outline:none;transition:all 0.2s;}
+.speak-input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(249,168,212,0.15);}
+.speak-input::placeholder{color:rgba(124,109,126,0.5);}
+.mic-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--pink2),var(--lav2));border:1.5px solid var(--pink);color:#d946ef;font-size:1.1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;}
+.mic-btn:hover,.mic-btn.active{background:linear-gradient(135deg,#f472b6,#a78bfa);color:white;}
+.mic-btn.active{animation:mPulse 1s infinite;}
+@keyframes mPulse{0%,100%{box-shadow:0 0 0 0 rgba(244,114,182,0.4);}50%{box-shadow:0 0 0 10px rgba(244,114,182,0);}}
+.hint-box{background:rgba(196,181,253,0.1);border:1.5px dashed rgba(196,181,253,0.4);border-radius:12px;padding:8px 12px;font-size:0.78rem;color:#7c3aed;margin-bottom:10px;line-height:1.6;}
+.s-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.s-chip{background:white;border:1.5px solid rgba(249,168,212,0.3);border-radius:99px;padding:5px 14px;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;color:var(--text2);}
+.s-chip:hover{border-color:var(--pink);color:#d946ef;}
+.s-chip.active{background:linear-gradient(135deg,var(--pink2),var(--lav2));border-color:var(--pink);color:#be185d;}
+.game-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.game-card{background:white;border:1.5px solid rgba(249,168,212,0.25);border-radius:20px;padding:20px 16px;cursor:pointer;transition:all 0.25s;text-align:center;box-shadow:var(--shadow);}
+.game-card:hover{border-color:var(--pink);transform:translateY(-3px);box-shadow:var(--shadow2);}
+.gi{font-size:2.2rem;margin-bottom:10px;display:block;}
+.gn{font-weight:900;font-size:0.95rem;color:var(--text);margin-bottom:4px;}
+.gd{font-size:0.75rem;color:var(--text2);line-height:1.5;}
+.quiz-q{font-size:1rem;font-weight:800;margin-bottom:16px;line-height:1.5;color:var(--text);}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{background:white;border:1.5px solid rgba(249,168,212,0.3);border-radius:12px;padding:12px 16px;cursor:pointer;font-size:0.88rem;font-weight:600;transition:all 0.2s;text-align:left;color:var(--text);}
+.quiz-opt:hover{border-color:var(--lavender);background:rgba(196,181,253,0.08);}
+.quiz-opt.correct{border-color:var(--mint);background:rgba(110,231,183,0.12);color:#065f46;}
+.quiz-opt.wrong{border-color:var(--coral);background:rgba(252,165,165,0.12);color:#991b1b;}
+.rd-text{font-size:0.88rem;line-height:1.9;color:var(--text);}
+.wt{color:#7c3aed;border-bottom:2px dashed rgba(167,139,250,0.5);cursor:pointer;font-weight:700;}
+.wt:hover{color:#d946ef;}
+.tooltip-box{display:none;background:linear-gradient(135deg,#fdf4ff,#fdf2fe);border:1.5px solid var(--lavender);border-radius:12px;padding:8px 14px;font-size:0.8rem;margin-top:8px;color:#7c3aed;font-weight:700;box-shadow:0 4px 14px rgba(196,181,253,0.2);}
+.rd-sent{display:flex;align-items:flex-start;gap:8px;margin:5px 0;line-height:1.8;}
+.sent-btn{flex-shrink:0;background:linear-gradient(135deg,var(--pink2),var(--lav2));border:1.5px solid var(--pink);border-radius:8px;color:#be185d;font-size:0.72rem;font-weight:800;padding:3px 8px;cursor:pointer;transition:all 0.18s;margin-top:3px;}
+.sent-btn:hover{background:linear-gradient(135deg,#f472b6,#a78bfa);color:white;border-color:transparent;}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.match-card{background:white;border:1.5px solid rgba(249,168,212,0.3);border-radius:12px;padding:12px;cursor:pointer;font-size:0.82rem;font-weight:700;text-align:center;transition:all 0.2s;min-height:52px;display:flex;align-items:center;justify-content:center;color:var(--text);}
+.match-card:hover{border-color:var(--lavender);background:rgba(196,181,253,0.06);}
+.match-card.selected{border-color:#f472b6;background:rgba(244,114,182,0.1);color:#be185d;}
+.match-card.matched{border-color:var(--mint);background:rgba(110,231,183,0.12);color:#065f46;opacity:0.6;pointer-events:none;}
+.match-card.wrong{border-color:var(--coral);background:rgba(252,165,165,0.1);animation:shake 0.3s;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.roadmap{position:relative;padding-left:24px;}
+.roadmap::before{content:'';position:absolute;left:8px;top:8px;bottom:0;width:2px;background:linear-gradient(180deg,#f472b6,#a78bfa,#34d399,transparent);}
+.m-item{position:relative;margin-bottom:20px;}
+.m-dot{position:absolute;left:-20px;top:6px;width:14px;height:14px;border-radius:50%;background:white;border:2px solid rgba(249,168,212,0.4);}
+.m-dot.active{background:linear-gradient(135deg,#f472b6,#a78bfa);border-color:transparent;box-shadow:0 0 12px rgba(244,114,182,0.5);}
+.m-dot.done{background:var(--mint);border-color:transparent;}
+.m-title{font-weight:900;font-size:0.95rem;margin-bottom:5px;color:var(--text);}
+.m-title.act{color:#d946ef;}
+.m-desc{font-size:0.78rem;color:var(--text2);line-height:1.7;}
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:4px 0;}
+.typing-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--lavender));animation:tBounce 1s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.15s}.typing-dot:nth-child(3){animation-delay:0.3s}
+@keyframes tBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.fill-input{background:rgba(249,168,212,0.1);border:1.5px solid var(--pink);border-radius:8px;padding:4px 12px;color:var(--text);font-size:0.9rem;font-weight:700;font-family:'Nunito',sans-serif;width:160px;outline:none;}
+.fill-input:focus{box-shadow:0 0 0 3px rgba(249,168,212,0.2);}
+.online-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;font-weight:700;color:#059669;background:rgba(110,231,183,0.15);border:1px solid rgba(110,231,183,0.3);border-radius:99px;padding:3px 10px;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f472b6,#a78bfa);color:white;font-weight:800;font-size:0.88rem;padding:10px 24px;border-radius:99px;opacity:0;transition:opacity 0.3s;z-index:999;pointer-events:none;box-shadow:0 4px 20px rgba(244,114,182,0.4);white-space:nowrap;}
+.toast.show{opacity:1;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:rgba(249,168,212,0.4);border-radius:99px;}
+</style>
+</head>
+<body>
+<div class="deco deco1"></div>
+<div class="deco deco2"></div>
+<div class="deco deco3"></div>
+<div class="deco deco4"></div>
+
+<header>
+  <div class="logo">🚢 LogistiSpeak</div>
+  <div class="prog-wrap"><div class="prog-fill" id="xpBar" style="width:12%"></div></div>
+  <div class="xp-badge"><span class="sync-dot"></span>⚡ <span id="xpCount">120</span> 积分</div>
+</header>
+
+<nav>
+  <button class="tab-btn active" onclick="switchTab('home')"><span>🏠</span>首页</button>
+  <button class="tab-btn" onclick="switchTab('vocab')"><span>📦</span>词汇</button>
+  <button class="tab-btn" onclick="switchTab('speaking')"><span>🎙️</span>口语</button>
+  <button class="tab-btn" onclick="switchTab('reading')"><span>📋</span>阅读</button>
+  <button class="tab-btn" onclick="switchTab('games')"><span>🎮</span>游戏</button>
+  <button class="tab-btn" onclick="switchTab('plan')"><span>🗺️</span>计划</button>
+</nav>
+
+<main>
+<!-- HOME -->
+<div id="panel-home" class="panel active">
+  <div class="sec-title">📅 今日任务 · Day <span id="dayCount">1</span></div>
+  <div class="card">
+    <div class="card-deco">🌸</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-weight:900;font-size:1rem">今日进度</div>
+      <div style="font-size:0.82rem;font-weight:800;color:#d946ef"><span id="mDone">1</span>/4 完成</div>
+    </div>
+    <div class="mission-item"><div class="mission-check done" onclick="toggleMission(this,20)">✓</div><div class="mission-text">学习 5 个新词汇</div><div class="mission-xp">+20 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,30)"></div><div class="mission-text">完成口语对话练习（客户报价场景）</div><div class="mission-xp">+30 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,15)"></div><div class="mission-text">玩1局配对游戏</div><div class="mission-xp">+15 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,25)"></div><div class="mission-text">阅读一封货代英语邮件</div><div class="mission-xp">+25 积分</div></div>
+  </div>
+
+  <div class="sec-title">📊 我的数据</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num" style="color:#f472b6">🔥 <span id="streakN">3</span></div><div class="stat-label">连续天数</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#a78bfa" id="wordsN">47</div><div class="stat-label">已学单词</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#34d399" id="scoreN">120</div><div class="stat-label">总积分</div></div>
+  </div>
+
+  <div class="sec-title">💡 今日重点词汇</div>
+  <div class="card">
+    <div class="card-deco">📦</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div><div class="vocab-word">Bill of Lading</div><div class="vocab-ph">/bɪl əv ˈleɪdɪŋ/</div><div class="vocab-cn">提单（B/L）</div></div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <button class="btn sm" onclick="speakWord('Bill of Lading');showToast('🔊 单词')">🔊 单词</button>
+        <button class="btn sm" onclick="speakWord('Please send me the Bill of Lading once the vessel has departed.');showToast('🔊 例句')" style="border-color:var(--lavender);color:#7c3aed">🔊 例句</button>
+      </div>
+    </div>
+    <div class="vocab-sent" style="margin-top:10px">Please send me the <b>Bill of Lading</b> once the vessel has departed.</div>
+    <div class="btn-row"><button class="btn primary" onclick="switchTab('vocab')">学更多词汇 →</button><button class="btn" onclick="switchTab('speaking')">🎙️ 练口语</button></div>
+  </div>
+  <div style="text-align:center;padding:8px"><span class="online-badge">☁️ 数据已同步</span></div>
+</div>
+
+<!-- VOCAB -->
+<div id="panel-vocab" class="panel">
+  <div class="sec-title">📦 物流核心词汇库</div>
+  <div style="display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap">
+    <button class="btn primary sm" onclick="filterVocab('all')">全部</button>
+    <button class="btn sm" onclick="filterVocab('shipping')">🚢 海运</button>
+    <button class="btn sm" onclick="filterVocab('customs')">🛃 清关</button>
+    <button class="btn sm" onclick="filterVocab('negotiation')">💼 报价</button>
+    <button class="btn sm" onclick="filterVocab('email')">📧 邮件</button>
+  </div>
+  <div id="vocabList"></div>
+</div>
+
+<!-- SPEAKING -->
+<div id="panel-speaking" class="panel">
+  <div class="sec-title">🎙️ AI 口语对话练习</div>
+  <div class="card" style="padding:14px">
+    <div style="font-size:0.8rem;color:var(--text2);font-weight:600;margin-bottom:8px">选择练习场景：</div>
+    <div class="s-chips">
+      <div class="s-chip active" onclick="selectScenario(this,'quote')">📊 报价谈判</div>
+      <div class="s-chip" onclick="selectScenario(this,'email')">📧 邮件沟通</div>
+      <div class="s-chip" onclick="selectScenario(this,'customs')">🛃 清关沟通</div>
+      <div class="s-chip" onclick="selectScenario(this,'complaint')">⚠️ 处理投诉</div>
+    </div>
+  </div>
+  <div class="chat-box" id="chatBox">
+    <div class="msg"><div class="msg-av ai">🤖</div><div class="msg-bubble">Hello! Let's practice a <strong>freight quotation</strong> scenario. I'm a customer looking for shipping rates from Shanghai to Los Angeles. Can you give me a quote?<div class="cn">你好！报价练习。我是客户，想要上海到洛杉矶的运费，你能报价吗？</div></div></div>
+  </div>
+  <div class="hint-box" id="hintBox">💡 参考：<em>"For a 20ft container, our all-in rate is approximately USD 1,200, subject to space."</em></div>
+  <div class="speak-input-row">
+    <input class="speak-input" id="userInput" placeholder="输入你的英语回复..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎤</button>
+    <button class="btn primary" onclick="sendMsg()">发送</button>
+  </div>
+  <div style="margin-top:8px;font-size:0.74rem;color:var(--text2);text-align:center;font-weight:600">💡 发送后AI给你 <span style="color:#d946ef">语法修正</span> + <span style="color:#7c3aed">地道表达</span></div>
+</div>
+
+<!-- READING -->
+<div id="panel-reading" class="panel">
+  <div class="sec-title">📋 真实邮件 & 文件阅读</div>
+  <div class="card">
+    <div class="card-deco">✉️</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div style="flex:1"><div style="font-weight:900;font-size:0.95rem">客户询价邮件</div><div style="font-size:0.75rem;color:var(--text2);font-weight:600">难度：中级 · 3分钟</div></div>
+      <button class="btn sm" id="spkEmailBtn" onclick="speakReadingPara('emailBody',this)" style="border-color:var(--pink);color:#d946ef">🔊 逐句朗读</button>
+    </div>
+    <div class="rd-text" id="emailBody">
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Dear Sales Team')">🔊</button>Dear <span class="wt" onclick="showTip('sales')">Sales Team</span>,</div><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('We are interested in shipping 2x20ft FCL containers from Shenzhen, China to Hamburg, Germany.')">🔊</button>We are interested in shipping 2x20ft <span class="wt" onclick="showTip('fcl')">FCL</span> containers from Shenzhen, China to Hamburg, Germany.</div>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Could you please provide us with your best all-in rates including THC and documentation fees?')">🔊</button>Could you please provide us with your best <span class="wt" onclick="showTip('allin')">all-in rates</span> including <span class="wt" onclick="showTip('thc')">THC</span> and <span class="wt" onclick="showTip('doc')">documentation fees</span>?</div><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('We would also need to confirm the ETD from Shenzhen and ETA to Hamburg for transit time reference.')">🔊</button>We would also need to confirm the <span class="wt" onclick="showTip('etd')">ETD</span> from Shenzhen and <span class="wt" onclick="showTip('eta')">ETA</span> to Hamburg for <span class="wt" onclick="showTip('transit')">transit time</span> reference.</div><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Additionally, please clarify whether your rates cover cargo insurance or if this needs to be arranged separately.')">🔊</button>Additionally, please clarify whether your rates cover <span class="wt" onclick="showTip('insurance')">cargo insurance</span> or if this needs to be arranged separately.</div><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Best regards, John Smith, ABC Trading Company.')">🔊</button>Best regards,<br>John Smith<br><em style="color:var(--text2);font-size:0.8rem">ABC Trading Co.</em></div>
+    </div>
+    <div id="tipBox" class="tooltip-box"></div>
+    <div style="font-size:0.74rem;color:var(--text2);margin-top:10px;font-weight:600">💡 点击 🔊 朗读每句 · 点击紫色词查释义</div>
+    <div class="btn-row" style="margin-top:12px"><button class="btn primary" onclick="switchTab('speaking')">🎙️ 练习回复这封邮件</button></div>
+  </div>
+  <div class="card">
+    <div class="card-deco">📞</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div style="flex:1"><div style="font-weight:900;font-size:0.95rem">电话沟通脚本</div><div style="font-size:0.75rem;color:var(--text2);font-weight:600">难度：初中级 · 2分钟</div></div>
+      <button class="btn sm" id="spkCallBtn" onclick="speakReadingPara('callBody',this)" style="border-color:var(--pink);color:#d946ef">🔊 逐句朗读</button>
+    </div>
+    <div class="rd-text" id="callBody">
+      <strong style="color:#d946ef">You:</strong><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Good morning, this is David from XYZ Logistics.')">🔊</button>"Good morning, this is David from XYZ Logistics.</div>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('I am calling regarding the shipment we discussed last week.')">🔊</button>I'm calling regarding the <span class="wt" onclick="showTip('shipment')">shipment</span> we discussed last week.</div>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('I wanted to confirm that the booking has been confirmed with the shipping line.')">🔊</button>I wanted to confirm that the <span class="wt" onclick="showTip('booking')">booking</span> has been confirmed with the shipping line."</div>
+      <br><strong style="color:#f59e0b">Client:</strong><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Great, could you also check if the cargo is on schedule? We have a strict deadline at the destination port.')">🔊</button>"Great, could you check if the <span class="wt" onclick="showTip('cargo')">cargo</span> is on schedule? We have a strict <span class="wt" onclick="showTip('deadline')">deadline</span>."</div>
+      <br><strong style="color:#d946ef">You:</strong><br>
+      <div class="rd-sent"><button class="sent-btn" onclick="speakWord('Absolutely. I will track the vessel and send you the update by end of day.')">🔊</button>"Absolutely. I'll track the vessel and send you the <span class="wt" onclick="showTip('update')">update</span> by end of day."</div>
+    </div>
+  </div>
+</div>
+
+<!-- GAMES -->
+<div id="panel-games" class="panel">
+  <div class="sec-title">🎮 趣味游戏 · 边玩边记</div>
+  <div id="gameMenu">
+    <div class="game-grid">
+      <div class="game-card" onclick="startGame('match')" style="border-top:3px solid var(--pink)"><span class="gi">🔗</span><div class="gn">词义配对</div><div class="gd">英文配中文，训练词汇记忆</div></div>
+      <div class="game-card" onclick="startGame('quiz')" style="border-top:3px solid var(--lavender)"><span class="gi">❓</span><div class="gn">情景问答</div><div class="gd">真实场景，选最地道表达</div></div>
+      <div class="game-card" onclick="startGame('fill')" style="border-top:3px solid var(--mint)"><span class="gi">✏️</span><div class="gn">填空挑战</div><div class="gd">补全邮件对话关键词汇</div></div>
+      <div class="game-card" onclick="startGame('listen')" style="border-top:3px solid var(--peach)"><span class="gi">👂</span><div class="gn">听音辨词</div><div class="gd">听发音选正确单词</div></div>
+    </div>
+  </div>
+  <div id="gameArea" style="display:none"></div>
+</div>
+
+<!-- PLAN -->
+<div id="panel-plan" class="panel">
+  <div class="sec-title">🗺️ 你的6个月成长路线图</div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-deco">🚀</div>
+    <div style="font-size:0.8rem;color:var(--text2);font-weight:600;margin-bottom:4px">你的目标</div>
+    <div style="font-weight:900;font-size:1rem">国际物流英语口语流利 · 自信接单 · 独立谈判</div>
+    <div style="margin-top:6px;font-size:0.8rem;color:var(--text2)">每日 15-30分钟 · 重点：报价谈判、邮件、电话会议</div>
+  </div>
+  <div class="roadmap">
+    <div class="m-item"><div class="m-dot active"></div><div class="m-title act">📦 第1个月：打地基</div><div class="m-desc">核心词汇200个（运输方式、单据名称、港口术语）<br>能看懂英文询价邮件 · 会回"谢谢/已收到"</div></div>
+    <div class="m-item"><div class="m-dot"></div><div class="m-title">📊 第2个月：报价场景</div><div class="m-desc">掌握报价200词 · 会写正式报价邮件<br>重点：「Our rate is... all-in / subject to space」</div></div>
+    <div class="m-item"><div class="m-dot"></div><div class="m-title">📞 第3个月：电话&会议</div><div class="m-desc">清晰表达时间节点、货物状态<br>Zoom会议用语 · 突破听不懂口音障碍</div></div>
+    <div class="m-item"><div class="m-dot"></div><div class="m-title">🛃 第4个月：清关&单据</div><div class="m-desc">海关术语、HS Code解释<br>能和海关/港口英文书面往来</div></div>
+    <div class="m-item"><div class="m-dot"></div><div class="m-title">🤝 第5个月：谈判升级</div><div class="m-desc">高阶谈判技巧 · 处理客户投诉<br>建立专业自信，减少依赖翻译</div></div>
+    <div class="m-item"><div class="m-dot"></div><div class="m-title">🏆 第6个月：流利实战</div><div class="m-desc">模拟完整客户开发流程（询价→报价→确认→跟单）<br>独立完成80%英语业务 · 累计词汇800+</div></div>
+  </div>
+  <div class="card" style="margin-top:8px">
+    <div style="font-weight:900;margin-bottom:8px">💡 学习小贴士</div>
+    <div style="font-size:0.82rem;color:var(--text2);line-height:1.9">🌸 每天15-30分钟坚持 > 偶尔学2小时<br>🎵 遇到新词就点🔊反复听，模仿发音<br>✨ 今天学的句子，明天在工作中用一次<br>🎮 用游戏模块巩固，比背单词快3倍</div>
+  </div>
+</div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const SKEY='lspeak_v2';
+function defData(){return{xp:120,streak:3,words:47,day:1,missions:[true,false,false,false]};}
+function loadData(){try{const s=localStorage.getItem(SKEY);return s?JSON.parse(s):defData();}catch(e){return defData();}}
+function saveLocal(d){try{localStorage.setItem(SKEY,JSON.stringify(d));}catch(e){}}
+let D=loadData();
+
+function applyData(){
+  document.getElementById('xpCount').textContent=D.xp;
+  document.getElementById('xpBar').style.width=Math.min(100,(D.xp%500)/5)+'%';
+  document.getElementById('streakN').textContent=D.streak;
+  document.getElementById('wordsN').textContent=D.words;
+  document.getElementById('scoreN').textContent=D.xp;
+  document.getElementById('dayCount').textContent=D.day;
+  const cks=document.querySelectorAll('.mission-check');
+  let done=0;
+  cks.forEach((c,i)=>{
+    if(D.missions[i]){c.classList.add('done');c.textContent='✓';done++;}
+    else{c.classList.remove('done');c.textContent='';}
+  });
+  document.getElementById('mDone').textContent=done;
+}
+applyData();
+
+// ===== Firebase sync (module loaded above) =====
+async function syncToCloud(data){
+  if(!window.FIREBASE_READY)return;
+  try{
+    const r=window.firebaseRef(window.firebaseDB,'users/'+window.FIREBASE_USER+'/progress');
+    await window.firebaseSet(r,data);
+  }catch(e){console.log('Cloud sync failed, local saved');}
+}
+
+function saveData(data){
+  saveLocal(data);
+  syncToCloud(data);
+}
+
+// ===== TAB =====
+function switchTab(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  ['home','vocab','speaking','reading','games','plan'].forEach((t,i)=>{
+    if(t===name) document.querySelectorAll('.tab-btn')[i].classList.add('active');
+  });
+  if(name==='vocab') renderVocab('all');
+}
+
+// ===== VOCAB =====
+const VD=[
+  {word:'Bill of Lading',ph:'/bɪl əv ˈleɪdɪŋ/',cn:'提单（B/L）',cat:'shipping',s:'Please send the <b>Bill of Lading</b> once the vessel departs.'},
+  {word:'FCL',ph:'/ˌef siː ˈel/',cn:'整箱货（Full Container Load）',cat:'shipping',s:'We need an <b>FCL</b> rate for 1x40HQ from Guangzhou.'},
+  {word:'LCL',ph:'/ˌel siː ˈel/',cn:'拼箱货（Less than Container Load）',cat:'shipping',s:"The shipment is too small for FCL, so we'll go <b>LCL</b>."},
+  {word:'Freight Forwarder',ph:'/freɪt ˈfɔːwədə/',cn:'货运代理',cat:'shipping',s:'Our <b>freight forwarder</b> will handle all the customs documents.'},
+  {word:'ETD',ph:'/iː tiː diː/',cn:'预计离港时间',cat:'shipping',s:'The <b>ETD</b> from Shanghai is this Friday.'},
+  {word:'ETA',ph:'/iː tiː eɪ/',cn:'预计到港时间',cat:'shipping',s:'The <b>ETA</b> at Los Angeles port is March 15th.'},
+  {word:'THC',ph:'/tiː eɪtʃ siː/',cn:'码头操作费',cat:'customs',s:'Our quote includes <b>THC</b> at origin and destination.'},
+  {word:'Customs Clearance',ph:"/ˈkʌstəmz ˈklɪərəns/",cn:'清关',cat:'customs',s:'We can assist with <b>customs clearance</b> at the destination port.'},
+  {word:'HS Code',ph:'/eɪtʃ es kəʊd/',cn:'商品编码',cat:'customs',s:'Could you provide the <b>HS code</b> for your cargo?'},
+  {word:'All-in Rate',ph:'/ɔːl ɪn reɪt/',cn:'含全部费用的运价',cat:'negotiation',s:'Our <b>all-in rate</b> is USD 1,500 per 20ft container.'},
+  {word:'Subject to space',ph:"/ˈsʌbdʒɪkt tə speɪs/",cn:'以舱位可订为准',cat:'negotiation',s:'This rate is valid until Friday, <b>subject to space</b>.'},
+  {word:'Volume discount',ph:"/ˈvɒljuːm ˈdɪskaʊnt/",cn:'批量折扣',cat:'negotiation',s:'We can offer a <b>volume discount</b> for regular monthly shipments.'},
+  {word:'Please be advised',ph:"/pliːz biː ədˈvaɪzd/",cn:'请注意/特此告知',cat:'email',s:'<b>Please be advised</b> that the vessel has been delayed by 2 days.'},
+  {word:'As per our discussion',ph:"/æz pɜː aʊə dɪˈskʌʃ(ə)n/",cn:'如我们所讨论',cat:'email',s:"<b>As per our discussion</b>, I'm attaching the revised quotation."},
+  {word:'Kindly revert',ph:"/ˈkaɪndli rɪˈvɜːt/",cn:'请回复（邮件用语）',cat:'email',s:'<b>Kindly revert</b> with your confirmation at your earliest convenience.'},
+  {word:'Transit time',ph:"/ˈtrænzɪt taɪm/",cn:'运输时效',cat:'shipping',s:'The standard <b>transit time</b> to Hamburg is 28-30 days.'},
+  {word:'Cargo insurance',ph:"/ˈkɑːɡəʊ ɪnˈʃʊərəns/",cn:'货物保险',cat:'shipping',s:'Do you need <b>cargo insurance</b> included in the shipment?'},
+  {word:'Demurrage',ph:'/dɪˈmʌrɪdʒ/',cn:'滞港费',cat:'customs',s:'We need to clear the cargo quickly to avoid <b>demurrage</b> charges.'},
+];
+const catTag={shipping:'<span class="tag ship">🚢 海运</span>',customs:'<span class="tag cust">🛃 清关</span>',negotiation:'<span class="tag neg">💼 报价</span>',email:'<span class="tag email">📧 邮件</span>'};
+
+function renderVocab(cat){
+  const list=document.getElementById('vocabList');if(!list)return;
+  const f=cat==='all'?VD:VD.filter(v=>v.cat===cat);
+  list.innerHTML=f.map(v=>{
+    const sw=v.word.replace(/'/g,"\\'");
+    const ss=v.s.replace(/<[^>]+>/g,'').replace(/'/g,"\\'");
+    return `<div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="vocab-word">${v.word}</div><div class="vocab-ph">${v.ph}</div><div class="vocab-cn">${v.cn}</div></div>
+        <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+          <button class="btn sm" onclick="speakWord('${sw}');showToast('🔊 单词')">🔊 单词</button>
+          <button class="btn sm" onclick="speakWord('${ss}');showToast('🔊 例句')" style="border-color:var(--lavender);color:#7c3aed">🔊 例句</button>
+        </div>
+      </div>
+      <div class="vocab-sent" style="margin-top:8px">${v.s}</div>
+      <div style="margin-top:8px">${catTag[v.cat]||''}</div>
+    </div>`;
+  }).join('');
+}
+
+// ===== SPEECH =====
+let pVoice=null;
+function initV(){
+  if(!window.speechSynthesis)return;
+  const vs=window.speechSynthesis.getVoices();
+  pVoice=vs.find(v=>v.lang==='en-US'&&v.name.includes('Samantha'))
+    ||vs.find(v=>v.lang==='en-US'&&v.name.includes('Google US English'))
+    ||vs.find(v=>v.lang==='en-US'&&v.name.includes('Google'))
+    ||vs.find(v=>v.lang.startsWith('en-')&&!v.name.includes('Microsoft'));
+}
+if(window.speechSynthesis){window.speechSynthesis.getVoices();window.speechSynthesis.onvoiceschanged=initV;initV();}
+
+function getP(t){
+  const lc=t.toLowerCase();
+  if(lc.includes('?')||lc.includes('could you')||lc.includes('can you'))return{rate:0.96,pitch:1.18};
+  if(lc.includes('great')||lc.includes('hello')||lc.includes('hi '))return{rate:1.02,pitch:1.12};
+  if(lc.includes('sorry')||lc.includes('apologize')||lc.includes('delay'))return{rate:0.84,pitch:0.92};
+  if(t.split(' ').length<=4)return{rate:0.78,pitch:1.05};
+  return{rate:0.92,pitch:1.04};
+}
+
+function speakWord(text,cb){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  const clean=text.replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='en-US';const p=getP(clean);u.rate=p.rate;u.pitch=p.pitch;u.volume=1;
+  if(pVoice)u.voice=pVoice;if(cb)u.onend=cb;
+  window.speechSynthesis.speak(u);
+}
+
+function speakSeq(sents,idx,btn){
+  if(idx>=sents.length){if(btn){btn.textContent='🔊 逐句朗读';btn.style.color='';}return;}
+  const c=sents[idx].replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim();
+  if(!c||c.length<3){speakSeq(sents,idx+1,btn);return;}
+  if(btn){btn.textContent='⏸ 停止';btn.style.color='#d946ef';}
+  const u=new SpeechSynthesisUtterance(c);u.lang='en-US';
+  const p=getP(c);u.rate=p.rate;u.pitch=p.pitch;u.volume=1;
+  if(pVoice)u.voice=pVoice;
+  u.onend=()=>setTimeout(()=>speakSeq(sents,idx+1,btn),350);
+  window.speechSynthesis.speak(u);
+}
+
+function speakReadingPara(paraId,btn){
+  if(window.speechSynthesis.speaking){window.speechSynthesis.cancel();if(btn){btn.textContent='🔊 逐句朗读';btn.style.color='';}return;}
+  const el=document.getElementById(paraId);if(!el)return;
+  const raw=el.innerHTML.replace(/<br\s*\/?>/gi,'. ');
+  const text=raw.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+  const sents=text.split(/(?<=[.?!])\s+/).filter(s=>s.trim().length>2);
+  showToast('🔊 逐句朗读中...');speakSeq(sents,0,btn);
+}
+
+// ===== TOOLTIP =====
+const TIPS={sales:'Sales Team = 销售团队',fcl:'FCL = 整箱货',allin:'All-in rates = 含全费综合运价',thc:'THC = 码头操作费',doc:'Documentation fees = 文件费',etd:'ETD = 预计离港时间',eta:'ETA = 预计到港时间',transit:'Transit time = 运输时效',insurance:'Cargo insurance = 货物保险',shipment:'Shipment = 一批货物',booking:'Booking = 订舱',cargo:'Cargo = 货物',deadline:'Deadline = 截止日期',update:'Update = 最新进展'};
+function showTip(k){const b=document.getElementById('tipBox');if(!b)return;b.textContent='📖 '+(TIPS[k]||k);b.style.display='block';speakWord(k);setTimeout(()=>b.style.display='none',3000);}
+
+// ===== CHAT =====
+let scn='quote';
+const SCD={
+  quote:{first:"Hello! Let's practice a freight quotation scenario. I'm a customer looking for shipping rates from Shanghai to Los Angeles. Can you give me a quote?",firstCn:"你好！报价练习。我是客户，想要上海到洛杉矶的运费，你能报价吗？",hint:"💡 参考：<em>\"For a 20ft container, our all-in rate is approximately USD 1,200, subject to space.\"</em>",
+    replies:[{t:['rate','price','usd','cost','1200','1500'],m:"That sounds reasonable. Does this include THC at origin? And what's the transit time to LA?",cn:"听起来合理。包括起运地码头费吗？到洛杉矶时效多少？"},{t:[],m:"Could you be more specific? I need the all-in rate including all surcharges.",cn:"能更具体吗？我需要包含所有附加费的综合运价。"}]},
+  email:{first:"I just received an inquiry for 2x20ft FCL from Shenzhen to Hamburg. Can you help me draft a professional reply?",firstCn:"我刚收到深圳到汉堡2x20整箱询价，帮我起草专业回复？",hint:"💡 参考：<em>\"Dear Mr. Smith, Thank you for your inquiry. Please find our quotation as follows...\"</em>",
+    replies:[{t:['dear','thank','quotation','rate'],m:"Good start! Don't forget to mention the validity of the quotation and the ETD.",cn:"开头不错！别忘了注明报价有效期和预计离港时间。"},{t:[],m:"Try: 'Dear Mr. Smith, Thank you for reaching out to us.'",cn:"试试：'亲爱的史密斯先生，感谢您联系我们。'"}]},
+  customs:{first:"The cargo arrived but customs is requesting more documents. How would you communicate this to the client?",firstCn:"货到港了，但海关需要更多文件。你会怎么和客户沟通？",hint:"💡 参考：<em>\"Please be advised that customs requires the original invoice and packing list.\"</em>",
+    replies:[{t:['advised','require','document','invoice'],m:"Good! Also ask them to provide documents within 24 hours to avoid demurrage.",cn:"沟通得好！让他们24小时内提供文件，避免滞港费。"},{t:[],m:"Try: 'Please be advised that customs authorities have requested additional documentation.'",cn:"试试：'请注意，海关要求提供额外文件。'"}]},
+  complaint:{first:"Our client is very upset because the shipment was delayed by 5 days. How would you handle this?",firstCn:"客户非常不高兴，货物晚了5天。你如何专业处理？",hint:"💡 参考：<em>\"I sincerely apologize for the delay. Let me investigate immediately and update you within 2 hours.\"</em>",
+    replies:[{t:['apologize','sorry','investigate','update'],m:"Well handled! Offer compensation if applicable, and provide a resolution timeline.",cn:"处理得好！如果合适可以提供补偿，并给出解决时间表。"},{t:[],m:"Start with: 'I sincerely apologize for the inconvenience caused by this delay.'",cn:"以道歉开始：'我真诚地为此次延误带来的不便道歉。'"}]}
+};
+
+function selectScenario(el,sc){
+  document.querySelectorAll('.s-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');scn=sc;
+  const d=SCD[sc];
+  document.getElementById('chatBox').innerHTML=`<div class="msg"><div class="msg-av ai">🤖</div><div class="msg-bubble">${d.first}<div class="cn">${d.firstCn}</div></div></div>`;
+  document.getElementById('hintBox').innerHTML=d.hint;speakWord(d.first);
+}
+
+function sendMsg(){
+  const inp=document.getElementById('userInput');const text=inp.value.trim();if(!text)return;
+  const box=document.getElementById('chatBox');
+  box.innerHTML+=`<div class="msg user"><div class="msg-av user">👤</div><div class="msg-bubble">${text}</div></div>`;
+  inp.value='';
+  const tid='t'+Date.now();
+  box.innerHTML+=`<div class="msg" id="${tid}"><div class="msg-av ai">🤖</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div></div>`;
+  box.scrollTop=box.scrollHeight;
+  setTimeout(()=>{
+    document.getElementById(tid)?.remove();
+    const d=SCD[scn];const lc=text.toLowerCase();
+    const rep=d.replies.find(r=>r.t.length>0&&r.t.some(t=>lc.includes(t)))||d.replies[d.replies.length-1];
+    const fb=genFB(text);
+    box.innerHTML+=`<div class="msg"><div class="msg-av ai">🤖</div><div class="msg-bubble">${rep.m}<div class="cn">${rep.cn}</div>${fb}</div></div>`;
+    box.scrollTop=box.scrollHeight;speakWord(rep.m);addXP(30);
+  },1500);
+}
+
+function genFB(text){
+  const hasPro=/please|kindly|regarding|would|could|appreciate/i.test(text);
+  const wc=text.split(' ').length;let tips=[];
+  if(!hasPro)tips.push('💡 <span style="color:#7c3aed">更地道：</span>试试 "Please be advised" 或 "Kindly note"');
+  if(wc>=8)tips.push('✅ <span style="color:#059669">句子长度很好！</span>');
+  return tips.length?`<div style="margin-top:8px;padding-top:8px;border-top:1px dashed rgba(249,168,212,0.3);font-size:0.78rem;line-height:1.7">${tips.join('<br>')}</div>`:'';
+}
+
+// ===== MIC =====
+let isRec=false;
+function toggleMic(){
+  const btn=document.getElementById('micBtn');
+  if(!('webkitSpeechRecognition'in window)&&!('SpeechRecognition'in window)){showToast('⚠️ 请用Chrome');return;}
+  if(isRec){isRec=false;btn.classList.remove('active');btn.textContent='🎤';return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const rec=new SR();rec.lang='en-US';rec.start();
+  isRec=true;btn.classList.add('active');btn.textContent='⏹️';showToast('🎤 录音中...');
+  rec.onresult=e=>{document.getElementById('userInput').value=e.results[0][0].transcript;isRec=false;btn.classList.remove('active');btn.textContent='🎤';};
+  rec.onerror=()=>{isRec=false;btn.classList.remove('active');btn.textContent='🎤';showToast('语音识别失败');};
+}
+
+// ===== GAMES =====
+const MP=[{en:'Bill of Lading',cn:'提单'},{en:'FCL',cn:'整箱货'},{en:'LCL',cn:'拼箱货'},{en:'ETA',cn:'预计到港时间'},{en:'THC',cn:'码头操作费'},{en:'Demurrage',cn:'滞港费'}];
+const QQ=[
+  {q:"A customer asks for the shipping cost. Most professional response?",cn:"客户询问运费，最专业的回答？",opts:["Our all-in rate for a 20ft container is USD 1,200, subject to space and valid until Friday.","It's about 1200 dollars maybe.","I will check later.","The price is expensive."],c:0},
+  {q:"The shipment is delayed. How do you inform the client?",cn:"货物延误，如何通知客户？",opts:["Delay happen, sorry.","Please be advised that the vessel has been delayed by 3 days. The revised ETA is March 18th.","Your goods are late.","We have a problem."],c:1},
+  {q:"What does 'all-in rate' mean?",cn:"'all-in rate'是什么意思？",opts:["Just the ocean freight","A rate that includes all charges and surcharges","Insurance only","Customs duties"],c:1},
+  {q:"How do you politely ask for a reply?",cn:"如何礼貌地请求回复？",opts:["Reply me now.","Kindly revert at your earliest convenience.","Why no reply?","Please reply fast."],c:1}
+];
+const FB=[{s:"Our _____ for a 40HQ container is USD 2,800 all-in.",a:"rate",h:"运价/报价"},{s:"The cargo will depart on Friday. The _____ to Los Angeles is 14 days.",a:"transit time",h:"运输时效"},{s:"Please send the original _____ once the goods have been shipped.",a:"Bill of Lading",h:"提单"}];
+let mSel=[],mMat=0,qIdx=0,qSco=0,fIdx=0;
+
+function startGame(type){document.getElementById('gameMenu').style.display='none';const a=document.getElementById('gameArea');a.style.display='block';if(type==='match')startMatch(a);else if(type==='quiz')startQuiz(a);else if(type==='fill')startFill(a);else startListen(a);}
+function backMenu(){document.getElementById('gameMenu').style.display='block';document.getElementById('gameArea').style.display='none';document.getElementById('gameArea').innerHTML='';mSel=[];mMat=0;}
+
+function startMatch(a){mSel=[];mMat=0;const items=[...MP.map(p=>({t:p.en,type:'en',pair:p.en})),...MP.map(p=>({t:p.cn,type:'cn',pair:p.en}))];items.sort(()=>Math.random()-0.5);
+  a.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div class="sec-title" style="margin:0">🔗 词义配对</div><button class="btn" onclick="backMenu()">← 返回</button></div>
+  <div style="font-size:0.8rem;color:var(--text2);font-weight:600;margin-bottom:10px">点击英文词，再点对应中文</div>
+  <div class="match-grid">${items.map((item,i)=>`<div class="match-card" onclick="mClick(this,'${item.type}','${item.pair.replace(/'/g,"\\'")}',${i})">${item.t}</div>`).join('')}</div>
+  <div id="mStat" style="text-align:center;margin-top:14px;font-size:0.85rem;color:var(--text2);font-weight:700">已匹配: 0 / ${MP.length}</div>`;}
+
+function mClick(el,type,pair,idx){
+  if(el.classList.contains('matched'))return;
+  if(mSel.length===0){el.classList.add('selected');mSel.push({el,type,pair,idx});}
+  else if(mSel.length===1){
+    if(mSel[0].idx===idx){el.classList.remove('selected');mSel=[];return;}
+    if(mSel[0].type===type){mSel[0].el.classList.remove('selected');el.classList.add('selected');mSel=[{el,type,pair,idx}];return;}
+    if(mSel[0].pair===pair){mSel[0].el.classList.remove('selected');mSel[0].el.classList.add('matched');el.classList.add('matched');mMat++;document.getElementById('mStat').textContent='已匹配: '+mMat+' / '+MP.length;mSel=[];addXP(10);if(mMat===MP.length)setTimeout(()=>showToast('🎉 全部配对！+60积分'),200);}
+    else{el.classList.add('wrong');mSel[0].el.classList.add('wrong');setTimeout(()=>{el.classList.remove('wrong','selected');mSel[0].el.classList.remove('wrong','selected');mSel=[];},600);}
+  }
+}
+
+function startQuiz(a){qIdx=0;qSco=0;renderQuiz(a);}
+function renderQuiz(a){
+  if(qIdx>=QQ.length){a.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div class="sec-title" style="margin:0">❓ 情景问答</div><button class="btn" onclick="backMenu()">← 返回</button></div>
+    <div class="card" style="text-align:center;padding:28px"><div style="font-size:1rem;font-weight:700;margin-bottom:8px">你的得分</div>
+    <div style="font-size:2.8rem;font-weight:900;background:linear-gradient(135deg,#f472b6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent">${qSco}/${QQ.length}</div>
+    <div style="font-size:0.85rem;color:var(--text2);margin-top:8px">${qSco>=3?'🌸 非常棒！':'💪 继续加油！'}</div>
+    <div class="btn-row" style="justify-content:center;margin-top:16px"><button class="btn primary" onclick="startQuiz(document.getElementById('gameArea'))">再来一次</button><button class="btn" onclick="backMenu()">返回</button></div></div>`;
+    addXP(qSco*15);return;}
+  const q=QQ[qIdx];
+  a.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div class="sec-title" style="margin:0">❓ 问答 ${qIdx+1}/${QQ.length}</div><button class="btn" onclick="backMenu()">← 返回</button></div>
+  <div class="card"><div class="quiz-q">${q.q}<div style="font-size:0.78rem;color:var(--text2);font-weight:400;margin-top:4px">${q.cn}</div></div>
+  <div class="quiz-opts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQ(this,${i},${q.c})">${o}</button>`).join('')}</div></div>`;}
+function answerQ(el,chosen,correct){
+  document.querySelectorAll('.quiz-opt').forEach(b=>b.style.pointerEvents='none');
+  if(chosen===correct){el.classList.add('correct');qSco++;showToast('✅ 正确！+15积分');}
+  else{el.classList.add('wrong');document.querySelectorAll('.quiz-opt')[correct].classList.add('correct');showToast('❌ 下次加油！');}
+  setTimeout(()=>{qIdx++;renderQuiz(document.getElementById('gameArea'));},1200);}
+
+function startFill(a){fIdx=0;renderFill(a);}
+function renderFill(a){
+  if(fIdx>=FB.length){a.innerHTML=`<div class="card" style="text-align:center;padding:28px"><div style="font-size:2rem">🌸</div><div style="font-weight:900;font-size:1.1rem;margin:10px 0">全部完成！+45积分</div>
+    <div class="btn-row" style="justify-content:center;margin-top:16px"><button class="btn primary" onclick="startFill(document.getElementById('gameArea'))">再练一次</button><button class="btn" onclick="backMenu()">返回</button></div></div>`;addXP(45);return;}
+  const f=FB[fIdx];const pts=f.s.split('_____');
+  a.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div class="sec-title" style="margin:0">✏️ 填空 ${fIdx+1}/${FB.length}</div><button class="btn" onclick="backMenu()">← 返回</button></div>
+  <div class="card"><div style="font-size:0.95rem;line-height:2.2;margin-bottom:16px">${pts[0]}<input id="fIn" class="fill-input" placeholder="${f.h}">${pts[1]||''}</div>
+  <button class="btn primary" onclick="checkFill('${f.a.replace(/'/g,"\\'")}')">确认答案</button></div><div id="fFB"></div>`;
+  document.getElementById('fIn').focus();}
+function checkFill(ans){
+  const v=document.getElementById('fIn').value.trim().toLowerCase();const fb=document.getElementById('fFB');
+  if(v===ans.toLowerCase()){fb.innerHTML=`<div class="card" style="border-color:var(--mint);color:#059669;font-weight:800">✅ 正确！</div>`;showToast('✅ 正确！+15积分');addXP(15);setTimeout(()=>{fIdx++;renderFill(document.getElementById('gameArea'));},1000);}
+  else{fb.innerHTML=`<div class="card" style="border-color:var(--coral);color:#991b1b;font-weight:800">❌ 正确答案：<strong>${ans}</strong></div>`;setTimeout(()=>{fIdx++;renderFill(document.getElementById('gameArea'));},1500);}}
+
+function startListen(a){
+  const ws=VD.slice(0,6);let li=0;
+  function renderL(){
+    if(li>=ws.length){a.innerHTML=`<div class="card" style="text-align:center;padding:28px"><div style="font-size:2rem">👂</div><div style="font-weight:900;font-size:1.1rem;margin:10px 0">听力完成！</div><button class="btn primary" onclick="backMenu()" style="margin-top:12px">返回游戏</button></div>`;addXP(30);return;}
+    const w=ws[li];const opts=[w.cn,...ws.filter((_,i)=>i!==li).slice(0,3).map(x=>x.cn)].sort(()=>Math.random()-0.5);
+    a.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px"><div class="sec-title" style="margin:0">👂 听音辨词 ${li+1}/${ws.length}</div><button class="btn" onclick="backMenu()">← 返回</button></div>
+    <div class="card" style="text-align:center;padding:24px"><div style="font-size:0.85rem;color:var(--text2);font-weight:600;margin-bottom:16px">点击播放，选对应中文</div>
+    <button class="btn primary" onclick="speakWord('${w.word}')" style="margin:0 auto 20px;display:block;font-size:1rem;padding:12px 28px">🔊 播放</button>
+    <div class="quiz-opts">${opts.map(o=>`<button class="quiz-opt" onclick="listenAns(this,'${o.replace(/'/g,"\\'")}','${w.cn.replace(/'/g,"\\'")}')">${o}</button>`).join('')}</div></div>`;
+    speakWord(w.word);}
+  window.listenAns=function(el,chosen,correct){document.querySelectorAll('.quiz-opt').forEach(b=>b.style.pointerEvents='none');if(chosen===correct){el.classList.add('correct');showToast('✅ 正确！');addXP(10);}else{el.classList.add('wrong');document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});showToast('❌ 注意听！');}setTimeout(()=>{li++;renderL();},1000);};
+  renderL();}
+
+// ===== XP =====
+function addXP(amt){
+  D.xp+=amt;
+  document.getElementById('xpCount').textContent=D.xp;
+  document.getElementById('xpBar').style.width=Math.min(100,(D.xp%500)/5)+'%';
+  document.getElementById('scoreN').textContent=D.xp;
+  saveData(D);
+}
+
+function toggleMission(el,pts){
+  const cks=Array.from(document.querySelectorAll('.mission-check'));
+  const idx=cks.indexOf(el);
+  el.classList.toggle('done');D.missions[idx]=el.classList.contains('done');
+  if(el.classList.contains('done')){el.textContent='✓';addXP(pts);showToast('✅ 任务完成！+'+pts+'积分');}
+  else{el.textContent='';D.xp=Math.max(0,D.xp-pts);document.getElementById('xpCount').textContent=D.xp;document.getElementById('scoreN').textContent=D.xp;}
+  let done=0;document.querySelectorAll('.mission-check').forEach(c=>{if(c.classList.contains('done'))done++;});
+  document.getElementById('mDone').textContent=done;saveData(D);
+}
+
+// ===== TOAST =====
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+
+// ===== PWA =====
+if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/logistics-english/sw.js').catch(()=>{});});}
+
+// ===== Firebase (需要配置真实key后启用) =====
+window.FIREBASE_READY=false;
+async function syncToCloud(data){if(!window.FIREBASE_READY)return;}
+function saveData(data){saveLocal(data);}
+function saveLocal(d){try{localStorage.setItem(SKEY,JSON.stringify(d));}catch(e){}}
+</script>
+</body>
+</html>
