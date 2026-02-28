@@ -159,7 +159,7 @@ main{padding:16px;max-width:680px;margin:0 auto;position:relative;z-index:1;}
 <header>
   <div class="logo">🚢 LogistiSpeak</div>
   <div class="prog-wrap"><div class="prog-fill" id="xpBar" style="width:12%"></div></div>
-  <div class="xp-badge"><span class="sync-dot"></span>⚡ <span id="xpCount">120</span> 积分</div>
+  <div class="xp-badge"><span class="sync-dot"></span>⚡ <span id="xpCount">0</span> 积分</div>
 </header>
 
 <nav>
@@ -179,33 +179,24 @@ main{padding:16px;max-width:680px;margin:0 auto;position:relative;z-index:1;}
     <div class="card-deco">🌸</div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <div style="font-weight:900;font-size:1rem">今日进度</div>
-      <div style="font-size:0.82rem;font-weight:800;color:#d946ef"><span id="mDone">1</span>/4 完成</div>
+      <div style="font-size:0.82rem;font-weight:800;color:#d946ef"><span id="mDone">0</span>/4 完成</div>
     </div>
-    <div class="mission-item"><div class="mission-check done" onclick="toggleMission(this,20)">✓</div><div class="mission-text">学习 5 个新词汇</div><div class="mission-xp">+20 积分</div></div>
-    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,30)"></div><div class="mission-text">完成口语对话练习（客户报价场景）</div><div class="mission-xp">+30 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,20)"></div><div class="mission-text">学习今日词汇</div><div class="mission-xp">+20 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,30)"></div><div class="mission-text">完成口语练习</div><div class="mission-xp">+30 积分</div></div>
     <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,15)"></div><div class="mission-text">玩1局配对游戏</div><div class="mission-xp">+15 积分</div></div>
-    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,25)"></div><div class="mission-text">阅读一封货代英语邮件</div><div class="mission-xp">+25 积分</div></div>
+    <div class="mission-item"><div class="mission-check" onclick="toggleMission(this,25)"></div><div class="mission-text">阅读今日邮件</div><div class="mission-xp">+25 积分</div></div>
   </div>
 
   <div class="sec-title">📊 我的数据</div>
   <div class="stats-grid">
-    <div class="stat-card"><div class="stat-num" style="color:#f472b6">🔥 <span id="streakN">3</span></div><div class="stat-label">连续天数</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#a78bfa" id="wordsN">47</div><div class="stat-label">已学单词</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#34d399" id="scoreN">120</div><div class="stat-label">总积分</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#f472b6">🔥 <span id="streakN">0</span></div><div class="stat-label">连续天数</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#a78bfa" id="wordsN">0</div><div class="stat-label">已学单词</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#34d399" id="scoreN">0</div><div class="stat-label">总积分</div></div>
   </div>
 
   <div class="sec-title">💡 今日重点词汇</div>
-  <div class="card">
-    <div class="card-deco">📦</div>
-    <div style="display:flex;justify-content:space-between;align-items:flex-start">
-      <div><div class="vocab-word">Bill of Lading</div><div class="vocab-ph">/bɪl əv ˈleɪdɪŋ/</div><div class="vocab-cn">提单（B/L）</div></div>
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <button class="btn sm" onclick="speakWord('Bill of Lading');showToast('🔊 单词')">🔊 单词</button>
-        <button class="btn sm" onclick="speakWord('Please send me the Bill of Lading once the vessel has departed.');showToast('🔊 例句')" style="border-color:var(--lavender);color:#7c3aed">🔊 例句</button>
-      </div>
-    </div>
-    <div class="vocab-sent" style="margin-top:10px">Please send me the <b>Bill of Lading</b> once the vessel has departed.</div>
-    <div class="btn-row"><button class="btn primary" onclick="switchTab('vocab')">学更多词汇 →</button><button class="btn" onclick="switchTab('speaking')">🎙️ 练口语</button></div>
+  <div class="card" id="todayVocabCard">
+    <!-- 由JS动态渲染 -->
   </div>
   <div style="text-align:center;padding:8px"><span class="online-badge">☁️ 数据已同步</span></div>
 </div>
@@ -327,27 +318,150 @@ main{padding:16px;max-width:680px;margin:0 auto;position:relative;z-index:1;}
 <div class="toast" id="toast"></div>
 
 <script>
-// ===== DATA =====
-const SKEY='lspeak_v2';
-function defData(){return{xp:120,streak:3,words:47,day:1,missions:[true,false,false,false]};}
-function loadData(){try{const s=localStorage.getItem(SKEY);return s?JSON.parse(s):defData();}catch(e){return defData();}}
-function saveLocal(d){try{localStorage.setItem(SKEY,JSON.stringify(d));}catch(e){}}
-let D=loadData();
+// ===== 每日自动更新系统 =====
+const SKEY='lspeak_v3';
+
+// 计算今天是从开始日起的第几天
+function getTodayStr(){ return new Date().toISOString().slice(0,10); }
+function getDayNumber(startDate){
+  const start = new Date(startDate);
+  const today = new Date(getTodayStr());
+  const diff = Math.floor((today - start) / 86400000);
+  return Math.max(1, diff + 1);
+}
+
+function defData(){
+  return {
+    xp: 0, streak: 0, words: 0,
+    startDate: getTodayStr(),   // 第一次使用的日期
+    lastVisit: getTodayStr(),   // 上次访问日期
+    missions: [false,false,false,false]
+  };
+}
+
+function loadData(){
+  try{ const s=localStorage.getItem(SKEY); return s?JSON.parse(s):defData(); }
+  catch(e){ return defData(); }
+}
+
+function saveLocal(d){ try{ localStorage.setItem(SKEY,JSON.stringify(d)); }catch(e){} }
+
+let D = loadData();
+
+// ===== 每日重置检查 =====
+function checkDailyReset(){
+  const today = getTodayStr();
+  if(D.lastVisit !== today){
+    // 新的一天！
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate()-1);
+    const yStr = yesterday.toISOString().slice(0,10);
+
+    // 连续打卡：昨天有完成任务才+streak
+    const hadMissions = D.missions.some(m=>m);
+    if(D.lastVisit === yStr && hadMissions){
+      D.streak += 1;
+    } else if(D.lastVisit !== yStr){
+      D.streak = hadMissions ? 1 : 0;
+    }
+
+    // 重置每日任务
+    D.missions = [false,false,false,false];
+    D.lastVisit = today;
+    saveLocal(D);
+    showToast('🌸 新的一天！任务已刷新！');
+  }
+}
+checkDailyReset();
+
+// ===== 今日词汇（根据天数自动轮换）=====
+function getTodayVocab(){
+  const dayNum = getDayNumber(D.startDate);
+  const idx = (dayNum - 1) % VD.length;
+  return VD[idx];
+}
+
+// ===== 今日口语场景（每天轮换）=====
+function getTodayScenario(){
+  const dayNum = getDayNumber(D.startDate);
+  const scenarios = ['quote','email','customs','complaint'];
+  return scenarios[(dayNum-1) % scenarios.length];
+}
+
+// ===== 今日任务标题（根据今日词汇动态生成）=====
+function getTodayMissions(){
+  const v = getTodayVocab();
+  const scnNames = {quote:'报价谈判',email:'邮件沟通',customs:'清关沟通',complaint:'处理投诉'};
+  const scn = getTodayScenario();
+  return [
+    `学习今日词汇：<strong>${v.word}</strong>`,
+    `完成口语练习（${scnNames[scn]}场景）`,
+    `玩1局配对游戏`,
+    `阅读今日邮件并点击生词查释义`
+  ];
+}
 
 function applyData(){
-  document.getElementById('xpCount').textContent=D.xp;
-  document.getElementById('xpBar').style.width=Math.min(100,(D.xp%500)/5)+'%';
-  document.getElementById('streakN').textContent=D.streak;
-  document.getElementById('wordsN').textContent=D.words;
-  document.getElementById('scoreN').textContent=D.xp;
-  document.getElementById('dayCount').textContent=D.day;
-  const cks=document.querySelectorAll('.mission-check');
-  let done=0;
+  const dayNum = getDayNumber(D.startDate);
+  document.getElementById('xpCount').textContent = D.xp;
+  document.getElementById('xpBar').style.width = Math.min(100,(D.xp%500)/5)+'%';
+  document.getElementById('streakN').textContent = D.streak;
+  document.getElementById('wordsN').textContent = D.words;
+  document.getElementById('scoreN').textContent = D.xp;
+  document.getElementById('dayCount').textContent = dayNum;
+
+  // 动态更新任务文字
+  const missions = getTodayMissions();
+  const texts = document.querySelectorAll('.mission-text');
+  texts.forEach((t,i)=>{ if(missions[i]) t.innerHTML = missions[i]; });
+
+  // 恢复任务状态
+  const cks = document.querySelectorAll('.mission-check');
+  let done = 0;
   cks.forEach((c,i)=>{
-    if(D.missions[i]){c.classList.add('done');c.textContent='✓';done++;}
-    else{c.classList.remove('done');c.textContent='';}
+    if(D.missions[i]){ c.classList.add('done'); c.textContent='✓'; done++; }
+    else{ c.classList.remove('done'); c.textContent=''; }
   });
-  document.getElementById('mDone').textContent=done;
+  document.getElementById('mDone').textContent = done;
+
+  // 更新首页今日词汇
+  renderTodayVocab();
+  // 更新口语默认场景
+  const todayScn = getTodayScenario();
+  document.querySelectorAll('.s-chip').forEach(c=>c.classList.remove('active'));
+  const scnIdx = ['quote','email','customs','complaint'].indexOf(todayScn);
+  const chips = document.querySelectorAll('.s-chip');
+  if(chips[scnIdx]) chips[scnIdx].classList.add('active');
+  scn = todayScn;
+}
+
+function renderTodayVocab(){
+  const v = getTodayVocab();
+  const dayNum = getDayNumber(D.startDate);
+  const el = document.getElementById('todayVocabCard');
+  if(!el) return;
+  const sw = v.word.replace(/'/g,"\\'");
+  const ss = v.s.replace(/<[^>]+>/g,'').replace(/'/g,"\\'");
+  el.innerHTML = `
+    <div class="card-deco">📦</div>
+    <div style="font-size:0.72rem;color:var(--text2);font-weight:700;margin-bottom:8px;letter-spacing:1px">DAY ${dayNum} 今日词汇 · 第${((dayNum-1)%VD.length)+1}/${VD.length}个</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="vocab-word">${v.word}</div>
+        <div class="vocab-ph">${v.ph}</div>
+        <div class="vocab-cn">${v.cn}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <button class="btn sm" onclick="speakWord('${sw}');showToast('🔊 单词')">🔊 单词</button>
+        <button class="btn sm" onclick="speakWord('${ss}');showToast('🔊 例句')" style="border-color:var(--lavender);color:#7c3aed">🔊 例句</button>
+      </div>
+    </div>
+    <div class="vocab-sent" style="margin-top:10px">${v.s}</div>
+    <div style="margin-top:8px">${catTag[v.cat]||''}</div>
+    <div class="btn-row">
+      <button class="btn primary" onclick="switchTab('vocab')">词汇库 →</button>
+      <button class="btn" onclick="switchTab('speaking')">🎙️ 练口语</button>
+    </div>`;
 }
 applyData();
 
